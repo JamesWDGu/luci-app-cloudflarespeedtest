@@ -60,5 +60,5 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: luci-app-cloudflarespeedtest_all.ipk
-          asset_name: luci-app-cloudflarespeedtes*_all.ipk
+          name: luci-app-cloudflarespeedtest_${{ env.version }}_all.ipk
+          path: /tmp/luci-app-cloudflarespeedtest_${{ env.version }}_all.ipk
