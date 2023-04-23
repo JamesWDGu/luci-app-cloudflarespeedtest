@@ -168,7 +168,7 @@ function host_ip() {
             fi
             HOSTS_CONTENT+="$HOSTS_LINE\n"
         done
-        echo "\n$HOSTS_CONTENT" >> /etc/hosts;
+        echo "$HOSTS_CONTENT" >> /etc/hosts;
         /etc/init.d/dnsmasq reload &>/dev/null
         echolog "HOST 完成"
     fi
