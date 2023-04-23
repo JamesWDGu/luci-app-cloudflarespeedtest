@@ -158,14 +158,17 @@ function ip_replace(){
 function host_ip() {
     if [ "x${HOST_enabled}" == "x1" ] ;then
         get_servers_config "host_domain"
-        HOSTS_LINE="$bestip $host_domain"
-        if [ -n "$(grep $host_domain /etc/hosts)" ]
-        then
-            sed -i".bak" "/$host_domain/d" /etc/hosts
-            echo $HOSTS_LINE >> /etc/hosts;
-        else
-            echo $HOSTS_LINE >> /etc/hosts;
-        fi
+        HOSTS_CONTENT=""
+        for domain in $(echo $host_domain | tr ',' ' '); do
+            HOSTS_LINE="$bestip $domain"
+
+            if [ -n "$(grep $domain /etc/hosts)" ]
+            then
+                sed -i "/$domain/d" /etc/hosts
+            fi
+            HOSTS_CONTENT+="$HOSTS_LINE\n"
+        done
+        echo "\n$HOSTS_CONTENT" >> /etc/hosts;
         /etc/init.d/dnsmasq reload &>/dev/null
         echolog "HOST 完成"
     fi
